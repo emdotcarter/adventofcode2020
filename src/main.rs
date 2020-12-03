@@ -9,6 +9,8 @@ fn main() -> Result<(), adventofcode2020::InputError> {
         "day1_part2" => run_day1_part2(&args[2..])?,
         "day2_part1" => run_day2_part1(&args[2..])?,
         "day2_part2" => run_day2_part2(&args[2..])?,
+        "day3_part1" => run_day3_part1(&args[2..])?,
+        "day3_part2" => run_day3_part2(&args[2..])?,
         _ => panic!("Bad day argument: {}", day),
     };
 
@@ -82,6 +84,52 @@ fn run_day2_part2(args: &[String]) -> Result<std::collections::HashMap<&str, usi
 
     return Ok(
         [("valid password count", password_database.valid_passwords_by_character_position())]
+        .iter()
+        .cloned()
+        .collect()
+    );
+}
+
+fn run_day3_part1(args: &[String]) -> Result<std::collections::HashMap<&str, usize>, adventofcode2020::InputError> {
+    let slope_map_reader = adventofcode2020::buf_reader_from_filepath(&args[0])?;
+    let mut map_rows: Vec<String> = Vec::new();
+    for line in slope_map_reader.lines() {
+        map_rows.push(line.map_err(adventofcode2020::InputError::Io)?);
+    }
+
+    let slope_map = adventofcode2020::SlopeMap::new(&map_rows);
+
+    let movement_path = adventofcode2020::MovementPath::new(3, 1);
+    return Ok(
+        [("trees hit", slope_map.count_trees_on_traversal(&movement_path))]
+        .iter()
+        .cloned()
+        .collect()
+    );
+}
+
+fn run_day3_part2(args: &[String]) -> Result<std::collections::HashMap<&str, usize>, adventofcode2020::InputError> {
+    let slope_map_reader = adventofcode2020::buf_reader_from_filepath(&args[0])?;
+    let mut map_rows: Vec<String> = Vec::new();
+    for line in slope_map_reader.lines() {
+        map_rows.push(line.map_err(adventofcode2020::InputError::Io)?);
+    }
+
+    let slope_map = adventofcode2020::SlopeMap::new(&map_rows);
+    let movement_paths = vec!(
+        adventofcode2020::MovementPath::new(1, 1),
+        adventofcode2020::MovementPath::new(3, 1),
+        adventofcode2020::MovementPath::new(5, 1),
+        adventofcode2020::MovementPath::new(7, 1),
+        adventofcode2020::MovementPath::new(1, 2),
+    );
+    let trees_hit_product = movement_paths.iter()
+        .map(|p| slope_map.count_trees_on_traversal(&p))
+        .fold(1, |acc, x| acc * x)
+        ;
+
+    return Ok(
+        [("trees hit", trees_hit_product)]
         .iter()
         .cloned()
         .collect()
