@@ -11,6 +11,8 @@ fn main() -> Result<(), adventofcode2020::InputError> {
         "day2_part2" => run_day2_part2(&args[2..])?,
         "day3_part1" => run_day3_part1(&args[2..])?,
         "day3_part2" => run_day3_part2(&args[2..])?,
+        "day4_part1" => run_day4_part1(&args[2..])?,
+        "day4_part2" => run_day4_part2(&args[2..])?,
         _ => panic!("Bad day argument: {}", day),
     };
 
@@ -130,6 +132,66 @@ fn run_day3_part2(args: &[String]) -> Result<std::collections::HashMap<&str, usi
 
     return Ok(
         [("trees hit", trees_hit_product)]
+        .iter()
+        .cloned()
+        .collect()
+    );
+}
+
+fn run_day4_part1(args: &[String]) -> Result<std::collections::HashMap<&str, usize>, adventofcode2020::InputError> {
+    let passport_reader = adventofcode2020::buf_reader_from_filepath(&args[0])?;
+
+    let mut passports: Vec<adventofcode2020::Passport> = Vec::new();
+
+    let mut key_value_row: String = String::from("");
+    for line_result in passport_reader.lines().map(|l| l.map_err(adventofcode2020::InputError::Io)) {
+        let line = &line_result?;
+
+        if line == "" {
+            passports.push(adventofcode2020::Passport::new(&key_value_row.trim())?);
+            key_value_row = String::from("");
+        } else {
+            key_value_row.push_str(" ");
+            key_value_row.push_str(&line);
+        }
+    }
+
+    if key_value_row != "" {
+        passports.push(adventofcode2020::Passport::new(&key_value_row.trim())?);
+    }
+
+    return Ok(
+        [("valid passports", passports.iter().filter(|p| p.is_valid(false)).count())]
+        .iter()
+        .cloned()
+        .collect()
+    );
+}
+
+fn run_day4_part2(args: &[String]) -> Result<std::collections::HashMap<&str, usize>, adventofcode2020::InputError> {
+    let passport_reader = adventofcode2020::buf_reader_from_filepath(&args[0])?;
+
+    let mut passports: Vec<adventofcode2020::Passport> = Vec::new();
+
+    let mut key_value_row: String = String::from("");
+    for line_result in passport_reader.lines().map(|l| l.map_err(adventofcode2020::InputError::Io)) {
+        let line = &line_result?;
+
+        if line == "" {
+            passports.push(adventofcode2020::Passport::new(&key_value_row.trim())?);
+            key_value_row = String::from("");
+        } else {
+            key_value_row.push_str(" ");
+            key_value_row.push_str(&line);
+        }
+    }
+
+    if key_value_row != "" {
+        passports.push(adventofcode2020::Passport::new(&key_value_row.trim())?);
+    }
+
+    return Ok(
+        [("valid passports", passports.iter().filter(|p| p.is_valid(true)).count())]
         .iter()
         .cloned()
         .collect()
