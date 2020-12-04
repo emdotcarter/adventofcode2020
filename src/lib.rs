@@ -7,22 +7,17 @@ pub enum InputError {
     Regex(regex::Error),
 }
 
-pub fn buf_reader_from_filepath(filepath: &str) -> Result<std::io::BufReader<std::fs::File>, InputError> {
-    return Ok(
-        std::io::BufReader::new(
-            std::fs::File::open(filepath)
-            .map_err(InputError::Io)?
-        )
+pub fn file_lines_to_string_vec(filepath: &str) -> Result<Vec<String>, InputError> {
+    let reader = std::io::BufReader::new(
+        std::fs::File::open(filepath)
+        .map_err(InputError::Io)?
     );
-}
-
-pub fn lines_to_usize(reader: &mut std::io::BufReader<std::fs::File>) -> Result<Vec<usize>, InputError> {
-    let mut numbers = Vec::<usize>::new();
+    let mut lines: Vec<String> = Vec::new();
     for line in reader.lines() {
-        numbers.push(line.map_err(InputError::Io)?.parse::<usize>().map_err(InputError::Parse)?);
+        lines.push(line.map_err(InputError::Io)?);
     }
 
-    return Ok(numbers);
+    return Ok(lines);
 }
 
 pub struct ExpenseReport {
@@ -30,10 +25,19 @@ pub struct ExpenseReport {
 }
 
 impl ExpenseReport {
-    pub fn new(values: &Vec<usize>) -> ExpenseReport {
-        return ExpenseReport {
-            values: values.to_vec(),
-        };
+    pub fn new(values: &Vec<String>) -> Result<ExpenseReport, InputError> {
+        let mut parsed_values = Vec::<usize>::new();
+        for value in values {
+            parsed_values.push(
+                value
+                .parse::<usize>()
+                .map_err(InputError::Parse)?
+                );
+        }
+
+        return Ok(
+            ExpenseReport { values: parsed_values },
+        );
     }
 
     pub fn product_from_target_two_sum(&mut self, target_sum: usize) -> usize {
