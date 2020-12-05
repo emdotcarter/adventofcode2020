@@ -6,18 +6,19 @@ mod expense_report;
 mod password_database;
 mod slope_map;
 mod passport;
+pub mod binary_partitioner;
 
 pub use crate::input_error::InputError;
-
-pub use crate::expense_report::ExpenseReport;
-pub use crate::password_database::PasswordDatabase;
-pub use crate::slope_map::SlopeMap;
-pub use crate::slope_map::MovementPath;
-pub use crate::passport::Passport;
 
 pub type ResultHashMap = Result<std::collections::HashMap<String, usize>, InputError>;
 pub type ChallengeFn = fn(&[String]) -> ResultHashMap;
 pub type ResultChallenge = Result<fn() -> challenges::Challenge, InputError>;
+
+pub use expense_report::ExpenseReport;
+pub use password_database::PasswordDatabase;
+pub use slope_map::MovementPath;
+pub use slope_map::SlopeMap;
+pub use passport::Passport;
 
 pub fn challenge_by_day(day: &str) -> ResultChallenge {
     let challenges = [
@@ -25,6 +26,7 @@ pub fn challenge_by_day(day: &str) -> ResultChallenge {
         challenges::day2::challenge,
         challenges::day3::challenge,
         challenges::day4::challenge,
+        challenges::day5::challenge,
     ];
 
     let day_index = day
