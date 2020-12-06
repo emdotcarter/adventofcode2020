@@ -64,3 +64,10 @@ fn valid_passports_with_validations(args: &[String]) -> ResultHashMap {
         .collect()
     );
 }
+
+#[cfg(test)]
+mod tests {
+    use super::challenge;
+
+    crate::challenge_tests!(204, 179);
+}

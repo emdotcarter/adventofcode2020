@@ -9,8 +9,7 @@ impl Passport {
         let mut value_map = std::collections::HashMap::<String, String>::new();
         let key_value_pairs = key_value_row
             .split(" ")
-            .map(|p| p.split(":"))
-            ;
+            .map(|p| p.split(":"));
 
         for mut pair in key_value_pairs {
             let key = match pair.next() {

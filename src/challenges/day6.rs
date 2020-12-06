@@ -89,6 +89,10 @@ fn intersection_of_sets<T>(sets: &Vec<std::collections::HashSet<T>>) -> std::col
 
 #[cfg(test)]
 mod tests {
+    use super::challenge;
+
+    crate::challenge_tests!(6726, 3316);
+
     #[test]
     fn sum_of_any_group_answered_questions() {
         use std::io::Write;

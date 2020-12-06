@@ -38,3 +38,10 @@ fn expense_report_product_from_3_sum(args: &[String]) -> ResultHashMap {
         .collect()
     );
 }
+
+#[cfg(test)]
+mod tests {
+    use super::challenge;
+
+    crate::challenge_tests!(121396, 73616634);
+}

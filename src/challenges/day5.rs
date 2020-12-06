@@ -18,8 +18,7 @@ fn max_seat_id(args: &[String]) -> ResultHashMap {
     let max_seat_id = raw_lines.iter()
         .map(|l| binary_partitioner::partition(&l).unwrap())
         .map(|hm| hm["row"] * 8 + hm["column"])
-        .max()
-        ;
+        .max();
 
     return match max_seat_id {
         Some(id) => Ok(
@@ -37,8 +36,7 @@ fn my_seat_id(args: &[String]) -> ResultHashMap {
 
     let wrapped_seat_ids = raw_lines.iter()
         .map(|l| binary_partitioner::partition(&l).unwrap())
-        .map(|hm| hm["row"] * 8 + hm["column"])
-        ;
+        .map(|hm| hm["row"] * 8 + hm["column"]);
 
     let mut sorted_seat_ids = Vec::new();
     for seat_id in wrapped_seat_ids {
@@ -60,4 +58,11 @@ fn my_seat_id(args: &[String]) -> ResultHashMap {
         .cloned()
         .collect()
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::challenge;
+
+    crate::challenge_tests!(838, 714);
 }

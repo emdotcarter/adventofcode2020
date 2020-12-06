@@ -36,3 +36,10 @@ fn valid_passwords_by_character_position(args: &[String]) -> ResultHashMap {
         .collect()
     );
 }
+
+#[cfg(test)]
+mod tests {
+    use super::challenge;
+
+    crate::challenge_tests!(410, 694);
+}

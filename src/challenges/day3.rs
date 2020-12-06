@@ -39,8 +39,7 @@ fn trees_hit_on_multiple_traversals_product(args: &[String]) -> ResultHashMap {
     );
     let trees_hit_product = movement_paths.iter()
         .map(|p| slope_map.count_trees_on_traversal(&p))
-        .fold(1, |acc, x| acc * x)
-        ;
+        .fold(1, |acc, x| acc * x);
 
     return Ok(
         [(String::from("trees hit"), trees_hit_product)]
@@ -48,4 +47,11 @@ fn trees_hit_on_multiple_traversals_product(args: &[String]) -> ResultHashMap {
         .cloned()
         .collect()
     );
+}
+
+#[cfg(test)]
+mod tests {
+    use super::challenge;
+
+    crate::challenge_tests!(294, 5774564250);
 }

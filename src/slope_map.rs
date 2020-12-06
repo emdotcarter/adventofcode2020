@@ -117,8 +117,7 @@ mod tests {
 	let slope_map = SlopeMap::new(&values);
         let actual = movement_paths.iter()
             .map(|p| slope_map.count_trees_on_traversal(&p))
-            .fold(1, |acc, x| acc * x)
-            ;
+            .fold(1, |acc, x| acc * x);
 
         assert_eq!(336, actual);
 
