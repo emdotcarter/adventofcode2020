@@ -33,3 +33,29 @@ fn max_row_num() -> usize {
 fn max_column_num() -> usize {
     return 7;
 }
+
+#[cfg(test)]
+mod tests {
+    macro_rules! partitioner_tests {
+        ($($name:ident: $value:expr,)*) => {
+            $(
+                #[test]
+                fn $name() {
+                    let (input, expected) = $value;
+
+                    let result = super::partition(&String::from(input)).unwrap();
+                    let actual = [result["row"], result["column"]];
+
+                    assert_eq!(expected, actual);
+                }
+            )*
+        }
+    }
+
+    partitioner_tests! {
+        binary_partition_1: ("FBFBBFFRLR", [44, 5]),
+        binary_partition_2: ("BFFFBBFRRR", [70, 7]),
+        binary_partition_3: ("FFFBBBFRRR", [14, 7]),
+        binary_partition_4: ("BBFFBBFRLL", [102, 4]),
+    }
+}

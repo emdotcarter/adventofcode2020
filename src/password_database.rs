@@ -83,3 +83,41 @@ impl PasswordDatabase {
         return (&self.entries).into_iter().filter(|e| e.is_valid_by_position).count();
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::InputError;
+    use super::PasswordDatabase;
+
+    #[test]
+    fn valid_passwords_by_count() -> Result<(), InputError> {
+        let values = vec!(
+            String::from("1-3 a: abcde"),
+            String::from("1-3 b: cdefg"),
+            String::from("2-9 c: ccccccccc"),
+        );
+        let mut password_database = PasswordDatabase::new(&values)?;
+
+        let actual = password_database.valid_passwords_by_character_count();
+
+        assert_eq!(2, actual);
+
+        return Ok(());
+    }
+
+    #[test]
+    fn valid_passwords_by_character_position() -> Result<(), InputError> {
+        let values = vec!(
+            String::from("1-3 a: abcde"),
+            String::from("1-3 b: cdefg"),
+            String::from("2-9 c: ccccccccc"),
+        );
+        let mut password_database = PasswordDatabase::new(&values)?;
+
+        let actual = password_database.valid_passwords_by_character_position();
+
+        assert_eq!(1, actual);
+
+        return Ok(());
+    }
+}

@@ -59,3 +59,69 @@ impl SlopeMap {
         return '#';
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::InputError;
+    use super::MovementPath;
+    use super::SlopeMap;
+
+    #[test]
+    fn count_trees_on_traversal() -> Result<(), InputError> {
+        let values = vec!(
+	    String::from("..##......."),
+	    String::from("#...#...#.."),
+	    String::from(".#....#..#."),
+	    String::from("..#.#...#.#"),
+	    String::from(".#...##..#."),
+	    String::from("..#.##....."),
+	    String::from(".#.#.#....#"),
+	    String::from(".#........#"),
+	    String::from("#.##...#..."),
+	    String::from("#...##....#"),
+	    String::from(".#..#...#.#"),
+	);
+        let movement_path = MovementPath::new(3, 1);
+
+	let slope_map = SlopeMap::new(&values);
+	let actual = slope_map.count_trees_on_traversal(&movement_path);
+
+        assert_eq!(7, actual);
+
+        return Ok(());
+    }
+
+    #[test]
+    fn count_trees_on_multiple_traversals() -> Result<(), InputError> {
+        let values = vec!(
+	    String::from("..##......."),
+	    String::from("#...#...#.."),
+	    String::from(".#....#..#."),
+	    String::from("..#.#...#.#"),
+	    String::from(".#...##..#."),
+	    String::from("..#.##....."),
+	    String::from(".#.#.#....#"),
+	    String::from(".#........#"),
+	    String::from("#.##...#..."),
+	    String::from("#...##....#"),
+	    String::from(".#..#...#.#"),
+	);
+        let movement_paths = vec!(
+            MovementPath::new(1, 1),
+            MovementPath::new(3, 1),
+            MovementPath::new(5, 1),
+            MovementPath::new(7, 1),
+            MovementPath::new(1, 2),
+        );
+
+	let slope_map = SlopeMap::new(&values);
+        let actual = movement_paths.iter()
+            .map(|p| slope_map.count_trees_on_traversal(&p))
+            .fold(1, |acc, x| acc * x)
+            ;
+
+        assert_eq!(336, actual);
+
+        return Ok(());
+    }
+}
