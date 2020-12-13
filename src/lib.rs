@@ -7,6 +7,7 @@ mod password_database;
 mod slope_map;
 mod passport;
 pub mod binary_partitioner;
+mod directed_graph;
 
 pub use crate::input_error::InputError;
 
@@ -19,6 +20,7 @@ pub use password_database::PasswordDatabase;
 pub use slope_map::MovementPath;
 pub use slope_map::SlopeMap;
 pub use passport::Passport;
+pub use directed_graph::DirectedGraph;
 
 pub fn challenge_by_day(day: &str) -> ResultChallenge {
     let challenges = [
@@ -28,6 +30,7 @@ pub fn challenge_by_day(day: &str) -> ResultChallenge {
         challenges::day4::challenge,
         challenges::day5::challenge,
         challenges::day6::challenge,
+        challenges::day7::challenge,
     ];
 
     let day_index = day
