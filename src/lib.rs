@@ -8,6 +8,7 @@ mod slope_map;
 mod passport;
 pub mod binary_partitioner;
 mod directed_graph;
+mod boot_code_computer;
 
 pub use crate::input_error::InputError;
 
@@ -21,6 +22,7 @@ pub use slope_map::MovementPath;
 pub use slope_map::SlopeMap;
 pub use passport::Passport;
 pub use directed_graph::DirectedGraph;
+pub use boot_code_computer::BootCodeComputer;
 
 pub fn challenge_by_day(day: &str) -> ResultChallenge {
     let challenges = [
@@ -31,6 +33,7 @@ pub fn challenge_by_day(day: &str) -> ResultChallenge {
         challenges::day5::challenge,
         challenges::day6::challenge,
         challenges::day7::challenge,
+        challenges::day8::challenge,
     ];
 
     let day_index = day
