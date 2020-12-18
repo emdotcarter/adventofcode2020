@@ -35,6 +35,7 @@ pub fn challenge_by_day(day: &str) -> ResultChallenge {
         challenges::day7::challenge,
         challenges::day8::challenge,
         challenges::day9::challenge,
+        challenges::day10::challenge,
     ];
 
     let day_index = day
